@@ -284,7 +284,7 @@ const login = query => {
 export
 const register = query => {
     return request({
-        url: 'http://127.0.0.1:8058/register/',
+        url:  SERVER_HOST+'/register/',
         method: 'post',
         data:query
     });
@@ -293,7 +293,7 @@ const register = query => {
 export
 const getCodes = () => {
     return request({
-        url: 'http://127.0.0.1:8058/vercode/',
+        url:  SERVER_HOST+'/vercode/',
         method: 'get'
     });
 };
