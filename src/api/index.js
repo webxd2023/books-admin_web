@@ -206,6 +206,24 @@ const delete_user_info = query => {
 };
 
 
+
+// 获取系统信息接口
+export
+const get_system_info = query => {
+    // let token = sessionStorage.getItem('token')
+    let token = localStorage.getItem("token")
+    if (!!token){
+        token=token.replace("\"","").replace("\"","");
+    }
+    return request({
+        url: SERVER_HOST+'/systemInfo',
+        method: 'get',
+        headers:{
+            Authorization:token
+        },
+    });
+};
+
 export
 const fetchData = query => {
     // let token = sessionStorage.getItem('token')
@@ -293,7 +311,7 @@ const register = query => {
 export
 const getCodes = () => {
     return request({
-        url:  SERVER_HOST+'/vercode/',
+        url:  SERVER_HOST+'/vercode',
         method: 'get'
     });
 };

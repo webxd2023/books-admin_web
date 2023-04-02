@@ -1,6 +1,61 @@
 <template>
   <div class="body1">
+
     <div class="mybody">
+      <div class="system_info">
+        <div class="disk_info">
+          <br/>
+          <h1 class="disk_text">磁盘信息</h1>
+          <br/>
+          <div class="disk_info_text">
+            <ul class="disk_list" v-for="(item,index) in  system_params.disk_info_list">
+              <h7 style="font-size: 15px;top: 0;">{{item.disk_path}}盘</h7>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <h7 style="font-size: 15px;top: 0;">容量:{{item.disk_usage_info.disk_total}}GB；   </h7>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <h7 style="font-size: 15px;top: 0;">已使用:{{item.disk_usage_info.disk_used}}GB；   </h7>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <h7 style="font-size: 15px;top: 0;">可使用:{{item.disk_usage_info.disk_free}}GB；   </h7>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <h7 style="font-size: 15px;top: 0;">占用率:{{item.disk_usage_info.disk_percent}}%；</h7>
+            </ul>
+            <br/>
+          </div>
+
+        </div>
+        <div class="os_info">
+          <br/>
+          <h1 class="os_text">设备信息</h1>
+          <br/>
+          <div class="cpu_info_text">
+            <h4>设备名称：{{ system_params.os_info.net_name }}</h4>
+            <h4>系统：{{ system_params.os_info.os_sname }}</h4>
+            <h4>系统类型：{{ system_params.os_info.os_arnum }}  -{{system_params.os_info.os_type}}</h4>
+<!--            <h4>CPU占用率：{{ system_params.cpu_info.cpu_percent }}</h4>-->
+          </div>
+
+        </div>
+        <div class="cpu_info">
+          <br/>
+          <h1 class="cpu_text">处理器信息</h1>
+          <br/>
+          <div class="cpu_info_text">
+            <h4>物理核心数：{{ system_params.cpu_info.cpu_physical_core }}</h4>
+            <h4>线程数：{{ system_params.cpu_info.cpu_thread }}</h4>
+            <h4>CPU主频：{{ system_params.cpu_info.cpu_freq }}</h4>
+            <h4>CPU占用率：{{ system_params.cpu_info.cpu_percent }}</h4>
+          </div>
+          <h1 class="ram_text">内存信息</h1>
+          <br/>
+          <div class="ram_info_text">
+            <h4>总容量：{{ system_params.ram_info.ram_total }} GB</h4>
+            <h4>已使用：{{ system_params.ram_info.ram_used }} GB</h4>
+            <h4>可使用：{{ system_params.ram_info.ram_free }} GB</h4>
+            <h4>占用率：{{ system_params.ram_info.ram_percent }}</h4>
+          </div>
+
+        </div>
+      </div>
       <div class="container">
         <div class="weather-side">
           <div class="weather-gradient"></div>
@@ -56,8 +111,11 @@
           </div>
         </div>
       </div>
+
     </div>
+
   </div>
+
 
 
 </template>
@@ -70,7 +128,7 @@ import {useRouter} from "vue-router";
 // import {getinternetip} from "../api";
 
 
-import {getamapip, getinternetip, weatherData} from "../api/index";
+import {get_system_info, getamapip, weatherData} from "../api/index";
 import {ElMessage, ElMessageBox} from "element-plus";
 
 export default {
@@ -126,10 +184,50 @@ export default {
           })
       })
     };
-    getgaodip()
+    const system_params=reactive({
+      disk_info_list:[],
+      cpu_info:{},
+      ram_info:{},
+      os_info:{}
+    });
+    // 请求系统信息接口
+    const get_system_infos=()=>{
+      get_system_info().then((res) =>{
+        system_params.cpu_info = res.data.cpu_info
+        system_params.ram_info = res.data.ram_info
+        system_params.disk_info_list = res.data.disk_info.disk_info_list
+        system_params.os_info = res.data.os_info
+        console.log(system_params.cpu_info)
+        console.log(system_params.ram_info)
+        console.log(system_params.disk_info_list)
+      })
+    };
 
+    getgaodip()
+    get_system_infos()
+
+    const time_data=reactive({
+      times:null
+    });
+
+    const created=()=>{
+      {
+        get_system_infos();
+        time_data.times = setInterval(() => {
+          get_system_infos();
+        }, 2000);
+      }
+    };
+
+    created()
+    // {
+    //   get_system_infos();
+    //   time_data.times = setInterval(() => {
+    //     get_system_infos();
+    //   }, 1000 * 60);
+    // }
     return {
-      weatherinfo,getgaodip,amapinfo,imgsrc,dailyarr
+      weatherinfo,getgaodip,amapinfo,imgsrc,dailyarr,system_params
     }
   },
 };
@@ -168,6 +266,77 @@ export default {
   justify-content: center;
 
 }
+.system_info{
+  display: flex;
+  height: 40%;
+  width: 100%;
+  background-color: #ffffff;
+  /*float:left;*/
+  /*margin-block-end: 2px;*/
+  flex-direction: row;
+}
+.cpu_info{
+  height: 100%;
+  width: 20%;
+  background-color: #2f9394;
+  border-radius: 200px;
+  margin-left:1%;   /* 距离左侧 px */
+  text-align:center;
+}
+.os_info{
+  height: 100%;
+  width: 20%;
+  background-color: #10b897;
+  border-radius: 200px;
+  margin-left:1%;   /* 距离左侧 px */
+  text-align:center;
+}
+.disk_info{
+  height: 100%;
+  width: 35%;
+  background-color: #236973;
+  border-radius: 50px;
+  margin-left:15%;   /* 距离左侧 px */
+  text-align:center;
+}
+.disk_text{
+  /*margin-left:40%;   !* 距离左侧 px *!*/
+  color: #ffffff;
+}
+.ram_text{
+  /*margin-left:40%;   !* 距离左侧 px *!*/
+  color: #ffffff;
+}
+.os_text{
+  /*margin-left:40%;   !* 距离左侧 px *!*/
+  color: #ffffff;
+}
+.cpu_text{
+  /*margin-left:40%;   !* 距离左侧 px *!*/
+  color: #ffffff;
+}
+.disk_info_text{
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  margin-left:2%;   /* 距离左侧 px */
+}
+.disk_list{
+  /*background-color: #5b553d;*/
+  display: flex;
+  flex-direction: row;
+  color: #ffffff;
+}
+.cpu_info_text{
+  /*margin-left:2%;   !* 距离左侧 px *!*/
+  color: #ffffff;
+  /*text-align:center;*/
+}
+.ram_info_text{
+  /*margin-left:2%;   !* 距离左侧 px *!*/
+  color: #ffffff;
+  /*text-align:center;*/
+}
 
 .week-lists{
   list-style: none;
@@ -180,22 +349,23 @@ export default {
 }
 .mybody {
   margin: 0;
-  width: 68%;
-  height: 45vh;
+  width: 100%;
+  height: 100%;
   font-family: 'Montserrat', sans-serif;
   /*background-color: #7cd4d7;*/
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+  /*position:absolute;*/
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
   border-radius: 25px;
-
-
+  block-progression: 25px;
+  flex-direction: column;  /* 按照列column(垂直方向)排列*/
 }
 
 .container {
@@ -204,8 +374,10 @@ export default {
   box-shadow: 0 0 70px -10px rgba(0, 0, 0, 0.2);
   background-color: #06686b;
   color: #ffffff;
-  height: 400px;
-  width: 100%;
+  height: 50%;
+  width: 65%;
+  margin-left:20%;   /* 距离左侧 px */
+  margin-top:3%;   /* 距离左侧 px */
 }
 
 .weather-side {
@@ -417,4 +589,5 @@ export default {
   width: auto;
   margin-right: 5px;
 }
+
 </style>
