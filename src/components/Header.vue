@@ -19,7 +19,7 @@
                 </div>
                 <!-- 用户头像 -->
                 <div class="user-avator">
-                    <img src="../assets/img/imgs.jpg" />
+                    <img src="http://api.webxd.top/media/f778738c-e4f8-4870-b634-56703b4acafe.gif" />
                 </div>
               &nbsp;
                 <!-- 用户名下拉菜单 -->

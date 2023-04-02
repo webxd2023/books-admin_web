@@ -33,7 +33,6 @@
             <h4>系统类型：{{ system_params.os_info.os_arnum }}  -{{system_params.os_info.os_type}}</h4>
 <!--            <h4>CPU占用率：{{ system_params.cpu_info.cpu_percent }}</h4>-->
           </div>
-
         </div>
         <div class="cpu_info">
           <br/>
@@ -111,7 +110,6 @@
           </div>
         </div>
       </div>
-
     </div>
 
   </div>
@@ -204,7 +202,7 @@ export default {
     };
 
     getgaodip()
-    get_system_infos()
+    // get_system_infos()
 
     const time_data=reactive({
       times:null
@@ -215,17 +213,12 @@ export default {
         get_system_infos();
         time_data.times = setInterval(() => {
           get_system_infos();
-        }, 2000);
+        }, 3500);
       }
     };
 
     created()
-    // {
-    //   get_system_infos();
-    //   time_data.times = setInterval(() => {
-    //     get_system_infos();
-    //   }, 1000 * 60);
-    // }
+
     return {
       weatherinfo,getgaodip,amapinfo,imgsrc,dailyarr,system_params
     }
@@ -274,29 +267,30 @@ export default {
   /*float:left;*/
   /*margin-block-end: 2px;*/
   flex-direction: row;
+  margin-top:10px;   /* 距离顶部10px */
 }
 .cpu_info{
   height: 100%;
-  width: 20%;
+  width: 30%;
   background-color: #2f9394;
-  border-radius: 200px;
+  border-radius: 50px;
   margin-left:1%;   /* 距离左侧 px */
   text-align:center;
 }
 .os_info{
   height: 100%;
-  width: 20%;
+  width: 30%;
   background-color: #10b897;
-  border-radius: 200px;
+  border-radius: 50px;
   margin-left:1%;   /* 距离左侧 px */
   text-align:center;
 }
 .disk_info{
   height: 100%;
-  width: 35%;
+  width: 40%;
   background-color: #236973;
   border-radius: 50px;
-  margin-left:15%;   /* 距离左侧 px */
+  /*margin-left:15%;   !* 距离左侧 px *!*/
   text-align:center;
 }
 .disk_text{
@@ -376,8 +370,8 @@ export default {
   color: #ffffff;
   height: 50%;
   width: 65%;
-  margin-left:20%;   /* 距离左侧 px */
-  margin-top:3%;   /* 距离左侧 px */
+  /*margin-left:20%;   !* 距离左侧 px *!*/
+  margin-top:10px;   /* 距离左侧 px */
 }
 
 .weather-side {
