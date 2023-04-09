@@ -7,7 +7,8 @@ const service = axios.create({
     //     'Access-Control-Allow-Origin':'*'
     // },
     // headers:"Access-Control-Allow-Origin: *",
-    timeout: 10000
+    mode: 'hash',
+    timeout: 20000
 });
 
 service.interceptors.request.use(

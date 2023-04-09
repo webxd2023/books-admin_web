@@ -19,9 +19,11 @@
     "wangeditor": "^4.7.4"
   },
   "devDependencies": {
-    "vite": "2.3.7",
     "@vitejs/plugin-vue": "^1.2.3",
-    "@vue/compiler-sfc": "^3.1.2"
+    "@vue/compiler-sfc": "^3.1.2",
+    "naive-ui": "^2.34.3",
+    "vfonts": "^0.0.3",
+    "vite": "^3.0.2"
   },
   "browserslist": [
     "> 1%",

@@ -224,6 +224,23 @@ const get_system_info = query => {
     });
 };
 
+// 获取网络信息接口
+export
+const get_network_info = query => {
+    // let token = sessionStorage.getItem('token')
+    let token = localStorage.getItem("token")
+    if (!!token){
+        token=token.replace("\"","").replace("\"","");
+    }
+    return request({
+        url: SERVER_HOST+'/network_info',
+        method: 'get',
+        headers:{
+            Authorization:token
+        },
+    });
+};
+
 export
 const fetchData = query => {
     // let token = sessionStorage.getItem('token')
