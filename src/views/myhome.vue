@@ -126,17 +126,13 @@
           <h1 class="os_text">网络信息</h1>
           <br/>
           <div class="cpu_info_text">
-<!--            <h4>总发送：{{ system_params.net_info.networkInfo.upTotal }}</h4>-->
-<!--            <h4>总接收：{{ system_params.net_info.networkInfo.downTotal }}</h4>-->
-<!--            <h4>上行：{{ system_params.net_info.networkInfo.upPackets }}</h4>-->
-
             <h4>{{ system_params.net_info.upSpeed }}</h4>
-            <h4>总发送：{{ system_params.net_info.networkInfo.upTotal}}MB</h4>
+<!--            <h4>总发送：{{ system_params.net_info.networkInfo.upTotal}}MB</h4>-->
 
             <h4>{{ system_params.net_info.doownSpeed }}</h4>
-            <h4>总接收：{{ system_params.net_info.networkInfo.downTotal}}MB</h4>
+<!--            <h4>总接收：{{ system_params.net_info.networkInfo.downTotal}}MB</h4>-->
             <br/>
-            <el-image src="http://api.webxd.top/media/微信图片_20230409155107.png">
+            <el-image src="http://api.webxd.top/media/FMlOfDgLlfcLLk5xtxNDxlXY54xofip3rQwAmyH8wQ.png">
 
             </el-image>
           </div>
@@ -198,8 +194,6 @@
         </div>
 
       </div>
-
-
     </div>
   </div>
 
@@ -279,24 +273,33 @@ export default {
 
     const msg=() =>{
       // ElMessage.warning("碰我干嘛！");
-      ElNotification({
-        title: 'Success',
-        message: '碰我干嘛！',
-        type: 'warning',
-      })
+      // ElNotification({
+      //   title: 'Success',
+      //   message: '碰我干嘛！',
+      //   type: 'warning',
+      // })
       system_params.show_params = true
     };
 
     const msg2=() =>{
       // ElMessage.warning("别走啊！");
-      ElNotification({
-        title: 'Success',
-        message: '别走啊',
-        type: 'success',
-      })
+      // ElNotification({
+      //   title: 'Success',
+      //   message: '别走啊',
+      //   type: 'success',
+      // })
       system_params.show_params = false
     };
-
+    let times = 0 ;
+    // const beforeDestroy=()=> {
+    //   // 不销毁会在其他页面也执行，浪费性能
+    //   clearInterval(this.time)
+    //   this.time = null
+    // };
+    const date_info=reactive({
+      timer : 0,
+      timers : 0
+    });
     const system_params=reactive({
       disk_info_list:[],
       cpu_info:{},
@@ -309,31 +312,54 @@ export default {
     // 请求系统信息接口
     const get_system_infos=()=>{
       get_system_info().then((res) =>{
-        system_params.cpu_info = res.data.cpu_info
-        system_params.ram_info = res.data.ram_info
-        system_params.disk_info_list = res.data.disk_info.disk_info_list
-        system_params.os_info = res.data.os_info
+        var code = res.status;
+        if (code == 200){
+          system_params.cpu_info = res.data.cpu_info
+          system_params.ram_info = res.data.ram_info
+          system_params.disk_info_list = res.data.disk_info.disk_info_list
+          system_params.os_info = res.data.os_info
+        }else if(code == 405 ){
+          window.clearInterval(date_info.timer)
+          window.clearInterval(date_info.timers)
+          ElMessageBox.alert("未授权或登录过期，请重新登录", "提示", {
+            confirmButtonText: "确定",
+            callback: action => {
+              router.push('/login')
+            }
+          });
+        }
+
       })
     };
 
     // 请求系统信息接口
     const get_network_infos=()=>{
       get_network_info().then((res) =>{
+        var code = res.status;
         console.log(res.data)
-        system_params.net_info = res.data
-        console.log(system_params.net_info)
+        if (code == 200){
+          system_params.net_info = res.data
+          console.log(system_params.net_info)
+        }else if(code == 405){
+          window.clearInterval(date_info.timer)
+          window.clearInterval(date_info.timers)
+          ElMessageBox.alert("未授权或登录过期，请重新登录", "提示", {
+            confirmButtonText: "确定",
+            callback: action => {
+              router.push('/login')
+            }
+          });
+        }
+
 
       })
     };
 
-    const time_data=reactive({
-      times:null
-    });
+
 
     const created=()=>{
       {
-
-        time_data.times = setInterval(() => {
+        date_info.timer = window.setInterval(() => {
           get_system_infos();
           get_network_infos();
         }, 4000);
@@ -342,7 +368,7 @@ export default {
     const created_weather=()=>{
       {
         getgaodip();
-        time_data.times = setInterval(() => {
+        date_info.timers = window.setInterval(() => {
           getgaodip();
         }, 300000);
       }
@@ -350,9 +376,8 @@ export default {
     get_system_infos();
     created()
     created_weather()
-
     return {
-      weatherinfo,getgaodip,amapinfo,imgsrc,dailyarr,system_params,msg,msg2,NButton
+      weatherinfo,getgaodip,amapinfo,imgsrc,dailyarr,system_params,msg,msg2
     }
   },
 };
