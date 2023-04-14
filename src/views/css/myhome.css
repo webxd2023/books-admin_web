@@ -178,7 +178,7 @@
     flex-direction: row;
 }
 
-.container {
+.containers {
     border-radius: 25px;
     -webkit-box-shadow: 0 0 70px -10px rgba(0, 0, 0, 0.2);
     box-shadow: 0 0 70px -10px rgba(0, 0, 0, 0.2);

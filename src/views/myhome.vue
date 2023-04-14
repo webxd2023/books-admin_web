@@ -137,7 +137,7 @@
             </el-image>
           </div>
         </div>
-        <div class="container">
+        <div class="containers">
           <div class="weather-side">
             <div class="weather-gradient"></div>
             <div class="date-container">
@@ -204,7 +204,7 @@
 <script>
 import Schart from "vue-schart";
 import {reactive, ref} from "vue";
-// import router from "../router";
+import router from "../router";
 import {useRouter} from "vue-router";
 // import {getinternetip} from "../api";
 import {get_system_info, get_network_info,getamapip, weatherData} from "../api/index";

@@ -86,7 +86,7 @@
             </div>
         </div>
 
-        <!-- 编辑弹出框 -->
+
         <el-dialog title="编辑" v-model="editVisible" width="35%">
             <el-form label-width="70px">
                 <el-form-item label="图书编号" width="50%">
@@ -160,7 +160,6 @@
             <el-upload
                 :action="SERVER_HOST+'/fileInfo'"
                 list-type="picture-card"
-
                 :on-success="handleAvatarSuccess"
                 :on-change="editstart">
 

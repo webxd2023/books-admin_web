@@ -84,6 +84,10 @@ export default {
               {
                 index: "/authoritySetting",
                 title: "权限设置",
+              },
+              {
+                index: "/jsonFormat",
+                title: "json格式化",
               }
             ]
           }

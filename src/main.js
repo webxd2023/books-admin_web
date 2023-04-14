@@ -1,7 +1,9 @@
 import {createApp} from 'vue'
 import App from './App.vue'
 import router from './router'
+// import router from "./routes";
 import store from './store'
+import JsonViewer from 'vue-json-viewer'
 import installElementPlus from './plugins/element'
 import './assets/css/icon.css'
 import 'vfonts/Lato.css'
@@ -15,4 +17,5 @@ app
     .use(store)
     .use(router)
     .use(naive)
+    .use(JsonViewer)
     .mount('#app')

@@ -17,7 +17,7 @@ const routes = [
                 meta: {
                     title: '我的首页'
                 },
-                component: () => import (/* webpackChunkName: "editor" */ '../views/myhome.vue')
+                component: () => import ('../views/myhome.vue')
             },
            {
                 path: "/booksTable",
@@ -25,7 +25,7 @@ const routes = [
                 meta: {
                     title: '图书列表'
                 },
-                component: () => import ( /* webpackChunkName: "table" */ "../views/BaseTable.vue")
+                component: () => import ("../views/BaseTable.vue")
             },
             {
                 path: "/userTable",
@@ -33,7 +33,7 @@ const routes = [
                 meta: {
                     title: '用户列表'
                 },
-                component: () => import ( /* webpackChunkName: "table" */ "../views/userTable.vue")
+                component: () => import ("../views/userTable.vue")
             },
             {
                 path: "/classifyTable",
@@ -41,7 +41,7 @@ const routes = [
                 meta: {
                     title: '图书分类'
                 },
-                component: () => import ( /* webpackChunkName: "table" */ "../views/classifyTable.vue")
+                component: () => import ("../views/classifyTable.vue")
             },
             {
                 path: "/borrowingTable",
@@ -49,22 +49,30 @@ const routes = [
                 meta: {
                     title: '借阅记录'
                 },
-                component: () => import ( /* webpackChunkName: "table" */ "../views/borrowingTable.vue")
+                component: () => import ("../views/borrowingTable.vue")
             },{
                 path: "/adminTable",
                 name: "adminTable",
                 meta: {
                     title: '管理员列表'
                 },
-                component: () => import ( /* webpackChunkName: "table" */ "../views/adminTable.vue")
+                component: () => import ("../views/adminTable.vue")
             },{
                 path: "/authoritySetting",
                 name: "authoritySetting",
                 meta: {
                     title: '权限设置'
                 },
-                component: () => import ( /* webpackChunkName: "table" */ "../views/authoritySetting.vue")
-            }
+                component: () => import ("../views/authoritySetting.vue")
+            },
+            {
+                path: "/jsonFormat",
+                name: "jsonFormat",
+                meta: {
+                    title: 'json格式化'
+                },
+                component: () => import ("../views/jsonViewers.vue")
+            },
         ]
     },
     {
@@ -73,14 +81,15 @@ const routes = [
         meta: {
             title: '登录'
         },
-        component: () => import ( /* webpackChunkName: "login" */ "../views/admin_login.vue")
-    },{
+        component: () => import ("../views/admin_login.vue")
+    },
+    {
         path: "/register",
         name: "Register",
         meta: {
             title: '注册'
         },
-        component: () => import ( /* webpackChunkName: "register" */ "../views/register.vue")
+        component: () => import ("../views/register.vue")
     }
 ];
 
